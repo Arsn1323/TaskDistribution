@@ -12,7 +12,7 @@ const UploadCSV = () => {
     formData.append('file', file);
 
     try {
-      await axios.post('http://localhost:5000/api/lists/upload', formData, {
+      await axios.post('https://taskdistribution.onrender.com/api/lists/upload', formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',
