@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -7,19 +7,14 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (localStorage.getItem('token')) {
-      navigate('/dashboard');
-    }
-  }, [navigate]);
-
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('https://taskdistribution.onrender.com/api/auth/login', {
+      const res = await axios.post('http://localhost:5000/api/auth/login', {
         email,
         password,
       });
+      console.log(res.data.token)
       localStorage.setItem('token', res.data.token);
       navigate('/dashboard');
     } catch (err) {
