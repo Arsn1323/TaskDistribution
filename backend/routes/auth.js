@@ -32,15 +32,37 @@ router.post('/register', async (req, res) => {
 });
 // Admin/User Login
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+  try {
+    const { email, password } = req.body;
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+    // 1. Check if user exists
+    const user = await User.findOne({ email });
+    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-  const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET);
-  res.json({ token, user: { id: user._id, email: user.email, role: user.role } });
+    // 2. Compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+
+    // 3. Generate JWT
+    const token = jwt.sign(
+      { id: user._id },  // optional role if used later
+      process.env.JWT_SECRET,
+      { expiresIn: '1d' }
+    );
+
+    // 4. Send token and basic user info
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        email: user.email,
+        role: 'admin'
+      }
+    });
+  } catch (err) {
+    console.error('Login error:', err.message);
+    res.status(500).json({ message: 'Server error during login' });
+  }
 });
 
 export default router;
