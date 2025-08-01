@@ -38,6 +38,7 @@ function App() {
               <AddAgent />
             </PrivateRoute>
           }
+          
         />
         <Route
           path="/upload"
