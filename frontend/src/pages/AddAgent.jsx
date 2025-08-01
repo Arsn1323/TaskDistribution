@@ -7,7 +7,7 @@ const AddAgent = () => {
   const handleAddAgent = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/agents/add', form, {
+      await axios.post('https://taskdistribution.onrender.com/api/agents/add', form, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
