@@ -9,10 +9,10 @@ const ViewAgentTasks = () => {
     const fetchData = async () => {
       try {
         const [agentRes, listRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/agents', {
+          axios.get('https://taskdistribution.onrender.com/api/agents', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           }),
-          axios.get('http://localhost:5000/api/lists', {
+          axios.get('https://taskdistribution.onrender.com/api/lists', {
             headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
           }),
         ]);
